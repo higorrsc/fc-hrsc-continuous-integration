@@ -1,0 +1,19 @@
+# EditorConfig ajuda a manter estilos de codificação consistentes
+root = true
+
+# Configuração padrão
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Arquivos YAML
+[*.{json,yaml,yml}]
+indent_style = space
+indent_size = 2
+
+# Arquivos Go
+[*.go]
+indent_style = tab
+tab_width = 4
