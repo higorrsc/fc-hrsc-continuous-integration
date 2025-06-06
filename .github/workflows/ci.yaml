@@ -6,14 +6,34 @@ on:
 jobs:
   check-application:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        go: ["1.14", "1.15", "1.24.4"]
-    name: Go ${{ matrix.go }} sample
+    # strategy:
+    #   matrix:
+    #     go: ["1.14", "1.15", "1.24.4"]
+    # name: Go ${{ matrix.go }} sample
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
         with:
-          go-version: ${{ matrix.go }}
-      - run: go test
-      - run: go run math.go
+          go-version: 1.15
+
+      - name: Test Go application
+        run: go test
+
+      - name: Build Go application
+        run: go run math.go
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v6
+        with:
+          push: false
+          tags: higorrsc/fc-hrsc-continuous-integration:latest
